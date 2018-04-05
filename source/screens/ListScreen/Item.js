@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {TouchableWithoutFeedback, View, Text, StyleSheet} from 'react-native'
+import moment from 'moment'
 
 export default class Item extends Component {
     openEventDetails = () => {
@@ -7,10 +8,13 @@ export default class Item extends Component {
     };
 
     render() {
+        let start_time = moment(this.props.start).format('HH:mm'),
+            finish_time = moment(this.props.finish).format('HH:mm');
+
         return <TouchableWithoutFeedback onPress={this.openEventDetails}>
             <View style={styles.container}>
-                <Text style={styles.title}>{this.props.title}</Text>
-                <Text style={styles.time}>{this.props.start} – {this.props.finish}</Text>
+                <Text style={styles.name}>{this.props.name}</Text>
+                <Text style={styles.time}>{start_time} – {finish_time}</Text>
             </View>
         </TouchableWithoutFeedback>
     }
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#d9d9d9',
         borderBottomWidth: 1,
     },
-    title: {},
+    name: {},
     time: {
         fontSize: 12,
         color: 'red'

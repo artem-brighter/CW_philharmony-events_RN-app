@@ -4,51 +4,45 @@ import {View, Text, SectionList, StyleSheet} from 'react-native'
 import Header from './Header'
 import Item from './Item'
 
+import {getEvents} from '../../services/api'
+import {prepareEvents} from '../../services/events'
+
 export default class ListScreen extends Component {
     static navigationOptions = {
         title: 'Future Events List',
     };
 
-    openEventDetails = (id) => {
+    state = {
+        loading: false,
+        events: []
+    };
+
+    openEventDetails = id => {
         this.props.navigation.navigate('Event', {id})
     };
+
+    getEvents = () => {
+        this.setState({loading: true});
+        getEvents().then(responce => {
+            this.setState({loading: false});
+
+            if (!responce.errors) {
+                this.setState({events: prepareEvents(responce)});
+            }
+        });
+    };
+
+    componentDidMount() {
+        this.getEvents();
+    }
 
     render() {
         return <View style={styles.container}>
             <SectionList
-                sections={[
-                    {
-                        title: '4th April 2018',
-                        data: [
-                            {
-                                id: 1,
-                                title: 'Concert 1',
-                                start: '15:00',
-                                finish: '17:00',
-                            }
-                        ]
-                    },
-                    {
-                        title: '5th April 2018',
-                        data: [
-                            {
-                                id: 2,
-                                title: 'Concert 2',
-                                start: '15:00',
-                                finish: '17:00',
-                            },
-                            {
-                                id: 3,
-                                title: 'Concert 3',
-                                start: '19:00',
-                                finish: '21:00',
-                            }
-                        ]
-                    },
-                ]}
+                sections={this.state.events}
                 renderItem={({item}) => <Item
                     id={item.id}
-                    title={item.title}
+                    name={item.name}
                     start={item.start}
                     finish={item.finish}
                     openEventDetails={this.openEventDetails}/>}
