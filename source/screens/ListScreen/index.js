@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, SectionList, StyleSheet} from 'react-native'
+import {View, ActivityIndicator, SectionList, RefreshControl, StyleSheet} from 'react-native'
 
 import Header from './Header'
 import Item from './Item'
@@ -36,9 +36,23 @@ export default class ListScreen extends Component {
         this.getEvents();
     }
 
-    render() {
+    renderLoader() {
+        return (
+            <View style={[styles.container, styles.loaderContainer]}>
+                <ActivityIndicator />
+            </View>
+        )
+    }
+
+    renderEvents() {
         return <View style={styles.container}>
             <SectionList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.loading}
+                        onRefresh={this.getEvents}
+                    />
+                }
                 sections={this.state.events}
                 renderItem={({item}) => <Item
                     id={item.id}
@@ -51,11 +65,19 @@ export default class ListScreen extends Component {
             />
         </View>
     }
+
+    render() {
+        return this.state.loading && this.state.events.length === 0 ? this.renderLoader() : this.renderEvents();
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white'
+    },
+    loaderContainer: {
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
