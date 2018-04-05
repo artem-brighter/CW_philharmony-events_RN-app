@@ -6,5 +6,5 @@ const fetchApi = (path, params) => {
 };
 
 export const getEvents = () => {
-    return fetchApi('events')
+    return fetchApi('events/future')
 };
