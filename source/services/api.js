@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://localhost:8080/';
+const SERVER_URL = 'https://philharmony-backend.herokuapp.com/';
 
 const fetchApi = (path, params) => {
     let full_path = SERVER_URL + 'api/' + path;
