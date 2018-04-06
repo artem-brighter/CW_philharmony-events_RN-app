@@ -44,14 +44,15 @@ export default class ListScreen extends Component {
     }
 
     renderEvents() {
-        return <ScrollView style={styles.container}>
+        return <ScrollView
+            style={styles.container}
+            refreshControl={
+                <RefreshControl
+                    refreshing={this.state.loading}
+                    onRefresh={this.getEvents}
+                />
+            }>
             <SectionList
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.loading}
-                        onRefresh={this.getEvents}
-                    />
-                }
                 sections={this.state.events}
                 renderItem={({item}) => <Item
                     id={item._id}
