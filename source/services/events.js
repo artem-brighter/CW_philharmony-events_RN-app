@@ -20,6 +20,10 @@ export const prepareEvents = events => {
 
         current_day_events.push(event);
     });
+    dates.push({
+        title: current_day.format('DD MMMM YYYY'),
+        data: current_day_events
+    });
 
     return dates;
 };
