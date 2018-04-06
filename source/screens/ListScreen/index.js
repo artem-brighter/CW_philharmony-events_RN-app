@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, ActivityIndicator, SectionList, RefreshControl, StyleSheet} from 'react-native'
+import {View, ScrollView, ActivityIndicator, SectionList, RefreshControl, StyleSheet} from 'react-native'
 
 import Header from './Header'
 import Item from './Item'
@@ -7,13 +7,14 @@ import Item from './Item'
 import {getEvents} from '../../services/api'
 import {prepareEvents} from '../../services/events'
 
+
 export default class ListScreen extends Component {
     static navigationOptions = {
         title: 'Future Events List',
     };
 
     state = {
-        loading: false,
+        loading: true,
         events: []
     };
 
@@ -37,15 +38,13 @@ export default class ListScreen extends Component {
     }
 
     renderLoader() {
-        return (
-            <View style={[styles.container, styles.loaderContainer]}>
-                <ActivityIndicator />
-            </View>
-        )
+        return <View style={[styles.container, styles.loaderContainer]}>
+            <ActivityIndicator />
+        </View>
     }
 
     renderEvents() {
-        return <View style={styles.container}>
+        return <ScrollView style={styles.container}>
             <SectionList
                 refreshControl={
                     <RefreshControl
@@ -55,7 +54,7 @@ export default class ListScreen extends Component {
                 }
                 sections={this.state.events}
                 renderItem={({item}) => <Item
-                    id={item.id}
+                    id={item._id}
                     name={item.name}
                     start={item.start}
                     finish={item.finish}
@@ -63,7 +62,7 @@ export default class ListScreen extends Component {
                 renderSectionHeader={({section}) => <Header title={section.title}/>}
                 keyExtractor={(item, index) => index}
             />
-        </View>
+        </ScrollView>
     }
 
     render() {

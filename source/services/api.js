@@ -8,3 +8,7 @@ const fetchApi = (path, params) => {
 export const getEvents = () => {
     return fetchApi('events/future')
 };
+
+export const getEvent = id => {
+    return fetchApi('events/' + id)
+};
