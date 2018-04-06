@@ -39,9 +39,9 @@ export default class EventScreen extends Component {
     }
 
     renderEvent() {
-        let date = moment(this.props.start).format('DD MMMM YYYY');
-        let start_time = moment(this.props.start).format('HH:mm'),
-            finish_time = moment(this.props.finish).format('HH:mm');
+        let date = moment(this.state.event.start).format('DD MMMM YYYY');
+        let start_time = moment(this.state.event.start).format('HH:mm'),
+            finish_time = moment(this.state.event.finish).format('HH:mm');
 
         return <ScrollView style={styles.container}>
             <Text style={styles.name}>{this.state.event.name}</Text>
